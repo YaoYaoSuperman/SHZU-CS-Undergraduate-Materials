@@ -1,0 +1,58 @@
+机器A
+root
+linux
+ifconfig eth0 10.65.1.1 netmask 255.255.0.0
+ifconfig
+route add default gw 10.65.1.9
+route
+机器B
+root
+linux
+ifconfig eth0 10.65.1.2 netmask 255.255.0.0
+ifconfig
+route add default gw 10.65.1.9
+route
+机器A
+ping 10.65.1.1
+ping 10.65.1.2
+机器B
+ping 10.65.1.1
+ping 10.65.1.2
+机器A
+ping 10.65.1.9
+机器B
+ping 10.65.1.9
+交换机
+en
+conf t
+int vlan 1
+ip address 10.65.1.3 255.255.0.0
+exit
+ip default-gateway 10.65.1.9
+exit
+sh run
+
+ping 10.65.1.1
+ping 10.65.1.2
+ping 10.65.1.3
+ping 10.65.1.4
+ping 10.65.1.9
+机器A
+ping 10.65.1.3
+ping 10.65.1.4
+（这行命令做不了）telnet 10.65.1.3
+
+机器B
+ifconfig eth0 10.66.1.2 netmask 255.255.0.0
+机器A
+ping 10.66.1.2
+机器B
+ifconfig eth0 10.65.1.4 netmask 255.255.0.0
+机器A
+ping 10.65.1.4
+机器A
+ping 10.65.1.4
+ping 10.65.1.3
+ping 10.65.1.1
+ping 127.0.0.1
+

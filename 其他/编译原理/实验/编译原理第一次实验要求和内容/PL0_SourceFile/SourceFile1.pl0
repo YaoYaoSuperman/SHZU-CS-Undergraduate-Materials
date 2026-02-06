@@ -1,0 +1,21 @@
+const c1=2,c2=10;
+var num1,count,sum;
+
+procedure func1;
+var y1,y2;
+begin
+y1:=1;
+y2:=x2
+end;
+
+begin
+  num1:=c1;
+  if num1>0 then
+    sum=0;
+  if num1<=0 then
+    num1=num1-1;
+  count:=1;
+  while x1<=x2 do
+    x1:=x1+1;
+  call func1
+end.

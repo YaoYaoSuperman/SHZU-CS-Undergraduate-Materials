@@ -1,0 +1,215 @@
+计算机A
+root
+linux
+ifconfig eth0 10.65.1.1 netmask 255.255.0.0
+route add default gw 10.65.1.2
+ifconfig
+计算机B
+root
+linux
+ifconfig eth0 10.66.1.1 netmask 255.255.0.0
+route add default gw 10.66.1.2
+ifconfig
+计算机C
+root
+linux
+ifconfig eth0 10.70.1.1 netmask 255.255.0.0
+route add default gw 10.70.1.2
+ifconfig
+计算机D
+root
+linux
+ifconfig eth0 10.71.1.1 netmask 255.255.0.0
+route add default gw 10.71.1.2
+ifconfig
+计算机E
+root
+linux
+ifconfig eth0 10.65.1.3 netmask 255.255.0.0
+route add default gw 10.65.1.2
+ifconfig
+计算机F
+root
+linux
+ifconfig eth0 10.65.2.1 netmask 255.255.0.0
+route add default gw 10.65.1.2
+ifconfig
+计算机G
+root
+linux
+ifconfig eth0 10.67.1.3 netmask 255.255.0.0
+route add default gw 10.67.1.2
+ifconfig
+交换机A
+en
+conf t
+hostname SWA
+int vlan 1
+ip address 10.65.1.8 255.255.0.0
+exit
+ip default-gateway 10.65.1.2
+exit
+vlan database
+vlan 2
+exit
+conf t
+int f0/7
+switchport access vlan 2
+int f0/8
+switchport access vlan 2
+int f0/1
+switchport mode trunk
+switchport trunk encap dot1q
+end
+sh run
+路由器A
+en
+conf t
+hostname ROA
+int f0/0
+no shut
+int f0/0.1
+encap dot1q 1
+ip address 10.65.1.2 255.255.0.0
+int f0/0.2
+encap dot1q 2
+ip address 10.67.1.2 255.255.0.0
+exit
+int f0/1
+ip address 10.66.1.2 255.255.0.0
+no shut
+int s0/1
+ip address 10.68.1.2 255.255.0.0
+clock rate 64000
+no shut
+exit
+ip routing
+router rip
+network 10.0.0.0
+end
+路由器C
+en
+conf t
+hostname ROC
+int s0/0
+ip address 10.68.1.1 255.255.0.0
+no clock
+no shut
+int s0/1
+ip address 10.69.1.1 255.255.0.0
+clock rate 64000
+no shut
+exit
+ip routing
+router rip
+network 10.0.0.0
+end
+路由器B
+en
+conf t
+hostname ROB
+int f0/0
+ip address 10.70.1.2 255.255.0.0
+no shut
+int f0/1
+ip address 10.71.1.2 255.255.0.0
+no shut
+int s0/1
+ip address 10.69.1.2 255.255.0.0
+no clock
+no shut
+exit
+ip routing
+router rip
+network 10.0.0.0
+end
+路由器A
+sh ip route
+路由器B
+sh ip route
+路由器C
+sh ip route
+计算机A
+ping 10.71.1.1
+路由器C
+conf t
+access-list 1 permit 10.65.1.1 0.0.0.0
+access-list 1 deny any
+int s0/0
+ip access-group 1 in
+end
+sh access-list 1
+计算机A
+ping 10.71.1.1
+计算机E
+ping 10.71.1.1
+ping 10.66.1.1
+计算机B
+ping 10.70.1.1
+计算机D
+ping 10.65.1.3
+ping 10.65.1.1
+路由器C
+conf t
+no access-list 1
+int s0/0
+no ip access-group 1 in
+end
+路由器C
+sh access-list
+路由器C
+conf t
+access-list 2 deny 10.65.1.0 0.0.0.255
+access-list 2 permit any
+int s0/1
+ip access-group 2 out
+end
+sh access-list
+计算机A
+ping 10.70.1.1
+计算机E
+ping 10.70.1.1
+计算机F
+ping 10.70.1.1
+计算机B
+ping 10.70.1.1
+路由器C
+conf t
+no access-list 2
+access-list 101 deny icmp 10.65.1.1 0.0.0.0 10.71.1.1 0.0.0.0 echo
+access-list 101 permit ip any any
+int s0/0
+ip access-group 101 in
+end
+sh access-list
+计算机A
+ping 10.71.1.1
+计算机E
+ping 10.71.1.1
+计算机F
+ping 10.71.1.1
+计算机D
+ping 10.65.1.1
+路由器C
+conf t
+no access-list 101
+end
+sh access-list
+计算机A
+ping 10.71.1.1
+路由器C
+conf t
+access-list 102 deny icmp 10.65.1.0 0.0.0.255 10.70.1.1 0.0.0.0 echo
+access-list 102 permit ip any any
+interface s0/1
+ip access-group 102
+end
+计算机A
+ping 10.70.1.1
+计算机E
+ping 10.70.1.1
+计算机F
+ping 10.70.1.1
+
+
+

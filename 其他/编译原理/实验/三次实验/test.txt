@@ -1,0 +1,20 @@
+int f(int a,double b)
+begin 
+  bool c=TRUE;
+  char d;
+  float e;
+  e++;
+string f;
+read(“%f”,&e);
+d=’345’;
+ while(a<=e)
+   begin
+     b=a**2+b/3;
+     select(c)
+     case   f=”a”;   break;
+     case   e=-4.3+3.52e12.3+0x123-0123;
+     case   a+=8; 
+     case   c=5<>9;
+   end
+write(“%f%d”,e,a);
+END

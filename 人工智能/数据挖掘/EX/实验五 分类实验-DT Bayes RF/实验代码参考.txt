@@ -1,0 +1,62 @@
+#随机森林
+from sklearn.ensemble import RandomForestClassifier
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+import numpy as np
+
+df=pd.read_csv('E:\rumor.txt',sep='\t')
+
+x, y = df.iloc[:, 0:12].values, df.iloc[:, 13].values
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 0)
+#print(y)
+feat_labels = df.columns[0:8]
+
+#训练
+rf = RandomForestClassifier(n_estimators=100, random_state=0, n_jobs=-1)
+rf_fit=rf.fit(x_train, y_train)
+
+#预测
+y_rf=rf_fit.predict(x_test) 
+
+print("随机森林的分类准确率：",accuracy_score(y_test,y_rf))
+
+#输出模型特征重要性
+#print("特征的重要性：",rf_fit.feature_importances_)
+
+print("混淆矩阵：")
+print(confusion_matrix(y_test,y_rf))
+
+importances = rf_fit.feature_importances_
+indices = np.argsort(importances)[::-1]
+for f in range(x_train.shape[1]):
+    print("%2d) %-*s %f" % (f + 1, 30, feat_labels[indices[f]], importances[indices[f]]))
+    
+#--------------------------------------------------------------------------------------
+#使用决策树训练
+
+
+#使用决策树预测
+
+
+print("决策树的分类准确率：",accuracy_score(y_test,y_dt))
+print("混淆矩阵：")
+
+
+#--------------------------------------------------------------------------------------
+#使用朴素贝叶斯训练
+
+
+#使用朴素贝叶斯预测
+
+
+
+print("朴素贝叶斯的分类准确率：",accuracy_score(y_test,y_nb))
+print("混淆矩阵：")
+
+
+
+
+#**************************************************************************************
+若画出以上3个分类器分类结果的ROC曲线，并在图中给出AUC的面积，如何实现

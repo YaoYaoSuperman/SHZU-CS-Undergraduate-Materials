@@ -1,0 +1,4 @@
+PACKAGE ads armlmd 1.200 E32F0DE5161D COMPONENTS="armasm compiler \ 
+bats armulate axd adwu fromelf armlink codewarrior armsd" 
+INCREMENT ads armlmd 1.200 permanent uncounted 612C53EF47C7 \ 
+HOSTID=ANY ISSUER="Full License by armer, only for educational purpose!" ck=0

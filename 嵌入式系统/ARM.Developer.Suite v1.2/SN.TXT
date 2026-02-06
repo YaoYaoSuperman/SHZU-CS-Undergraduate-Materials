@@ -1,0 +1,5 @@
+提示说明：请确定你所下载的资源来源于风信网 http://www.ithov.com，此软件已经风信网严格测试通过，可放心使用！
+在安装结束时，出现“ARM License Wizard”，选择
+“Install License”，然后使用“Browse”，在“License File To Be Installed”对话框中选择crack文件夹中的license.dat文件导入许可证即可正常使用啦。
+
+ARM开发工具套装(ARM Developer Suite)1.2 。最新版本ARM软件解决方案支持业界领先的ARM Jazelle技术的Java硬件加速工具、最新的ARM微处理器核心 ,以及Linux主机,包括Red Hat Linux。	

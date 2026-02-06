@@ -1,0 +1,200 @@
+#肘方法确定簇的个数
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+import numpy as np
+import matplotlib.pyplot as plt
+
+#原文链接：https://blog.csdn.net/bingbangx/article/details/107789538
+#make_blobs函数是为聚类产生数据集，产生一个数据集和相应的标签
+#sklearn.datasets.make_blobs(n_samples=100,n_features=2,centers=3, cluster_std=1.0,center_box=(-10.0,10.0),shuffle=True,random_state=None)
+#参数：
+#n_samples:表示数据样本点个数,默认值100
+#n_features:是每个样本的特征（或属性）数，也表示数据的维度，默认值是2
+#centers:表示类别数（标签的种类数），默认值3
+#cluster_std表示每个类别的方差，例如我们希望生成2类数据，其中一类比另一类具有更大的方差，可以将cluster_std设置为[1.0,3.0]，
+            #浮点数或者浮点数序列，默认值1.0
+#center_box：中心确定之后的数据边界，默认值(-10.0, 10.0)
+#shuffle ：将数据进行洗乱，默认值是True
+#random_state:官网解释是随机生成器的种子，可以固定生成的数据，给定数之后，每次生成的数据集就是固定的。
+       #若不给定值，则由于随机性将导致每次运行程序所获得的的结果可能有所不同。在使用数据生成器练习机器学习算法练习或python练习时建议给定数值。
+
+X_blobs, y_blobs = make_blobs(n_samples=300, centers=5,cluster_std=0.5, random_state=1)
+
+SSE = [] #存放每次结果的误差平方和
+k_SSE = []
+#簇的数量
+for n_clusters in range(1,9):
+    cls = KMeans(n_clusters).fit(X_blobs)
+    score = cls.inertia_
+    SSE.append(score)
+    k_SSE.append(n_clusters)
+
+plt.figure(figsize=(15,5))
+plt.subplot(121)
+plt.scatter(X_blobs[:, 0], X_blobs[:, 1], c=y_blobs)
+plt.title("Original_blobs")
+
+plt.subplot(122)
+plt.xlabel('k')
+plt.ylabel('SSE')
+plt.plot( k_SSE,SSE,'o-')
+plt.title("choose a best number of clusters")
+
+plt.show()
+
+
+#-------------------------------------------------------------------
+#层次聚类树状图
+import numpy as np
+
+from matplotlib import pyplot as plt
+from scipy.cluster.hierarchy import dendrogram
+from sklearn.datasets import load_iris
+from sklearn.datasets import make_blobs
+from sklearn.cluster import AgglomerativeClustering
+
+
+def plot_dendrogram(model, **kwargs):
+    # Create linkage matrix and then plot the dendrogram
+
+    # create the counts of samples under each node
+    counts = np.zeros(model.children_.shape[0])
+    n_samples = len(model.labels_)
+    for i, merge in enumerate(model.children_):
+        current_count = 0
+        for child_idx in merge:
+            if child_idx < n_samples:
+                current_count += 1  # leaf node
+            else:
+                current_count += counts[child_idx - n_samples]
+        counts[i] = current_count
+
+    linkage_matrix = np.column_stack([model.children_, model.distances_,
+                                      counts]).astype(float)
+
+    # Plot the corresponding dendrogram
+    dendrogram(linkage_matrix, **kwargs)
+
+#iris = load_iris()
+#X = iris.data
+
+X_blobs, y_blobs = make_blobs(n_samples=300, centers=5,cluster_std=0.5, random_state=1)
+
+
+# setting distance_threshold=0 ensures we compute the full tree.
+model = AgglomerativeClustering(distance_threshold=0, n_clusters=None)
+
+model = model.fit(X_blobs)
+plt.title('Hierarchical Clustering Dendrogram')
+# plot the top three levels of the dendrogram
+plot_dendrogram(model, truncate_mode='level', p=3)
+plt.xlabel("Number of points in node (or index of point if no parenthesis).")
+plt.show()
+
+
+
+
+
+#------------------------------------------------------------------------
+#实验七
+from sklearn.cluster import KMeans
+from sklearn.cluster import Birch
+from sklearn.cluster import AgglomerativeClustering
+from sklearn import metrics
+
+from sklearn.datasets import make_blobs
+from sklearn.datasets import make_moons
+from sklearn.datasets import make_circles
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+X_blobs, y_blobs = make_blobs(n_samples=200, centers=4,cluster_std=0.60, random_state=0)
+X_moons,y_moons=make_moons(n_samples=200,noise=0.1,random_state=0)
+X_circles, y_circles=make_circles(n_samples=200, factor=0.6,noise=0.1,random_state=0)
+
+
+#-------------k-means
+
+y_blobs_kmeans = KMeans(n_clusters=4).fit_predict(X_blobs)
+
+y_moons_kmeans= KMeans(n_clusters=2).fit_predict(X_moons)
+
+y_circles_kmeans= KMeans(n_clusters=2).fit_predict(X_circles)
+
+#-------------AgglomerativeClustering
+
+
+
+
+#------------birch
+# threshold:即叶节点每个CF的最大样本半径阈值T,默认的threshold值0.5。
+#branching_factor：即CF Tree内部节点的最大CF数B，以及叶子节点的最大CF数L，默认的branching_factor值50。
+#n_clusters：即类别数K，在BIRCH算法是可选的
+
+
+
+#轮廓系数的区间为：[-1, 1]。 -1代表聚类效果差，1代表聚类效果好。0代表聚类重叠，没有很好的划分聚类。
+print("silhouette_score：","blobs—", metrics.silhouette_score(X_blobs, y_blobs,sample_size=len(X_blobs), metric='euclidean'),
+                    "，kmeans_blobs—", metrics.silhouette_score(X_blobs, y_blobs_kmeans,sample_size=len(X_blobs), metric='euclidean'),
+                    "，ac_blobs—", metrics.silhouette_score(X_blobs, y_blobs_ac,sample_size=len(X_blobs), metric='euclidean'),
+                  "，birch_blobs—", metrics.silhouette_score(X_blobs, y_blobs_birch,sample_size=len(X_blobs), metric='euclidean'))
+                  
+
+plt.figure(figsize=(15,15))
+plt.subplot(341)
+plt.scatter(X_blobs[:, 0], X_blobs[:, 1], c=y_blobs)
+plt.title("Original_blobs")
+
+plt.subplot(342)
+plt.scatter(X_blobs[:, 0], X_blobs[:, 1], c=y_blobs_kmeans)
+blobs_centers = blobs_kmeans.cluster_centers_
+plt.scatter(blobs_centers[:,0], blobs_centers[:, 1], c='red', s=80, marker='x')
+plt.title("kmeans_blobs")
+
+plt.subplot(343)
+plt.scatter(X_blobs[:, 0], X_blobs[:, 1], c=y_blobs_ac)
+plt.title("ac_blobs")
+
+plt.subplot(344)
+plt.scatter(X_blobs[:, 0], X_blobs[:, 1], c=y_blobs_birch)
+plt.title("birch_blobs")
+
+
+plt.subplot(345)
+plt.scatter(X_moons[:, 0], X_moons[:, 1], c=y_moons)
+plt.title("Original_moons")
+
+plt.subplot(346)
+plt.scatter(X_moons[:, 0], X_moons[:, 1], c=y_moons_kmeans)
+moons_centers = moons_kmeans.cluster_centers_
+plt.scatter(moons_centers[:,0], moons_centers[:, 1], c='red', s=80, marker='x')
+plt.title("kmeans_moons")
+
+plt.subplot(347)
+plt.scatter(X_moons[:, 0], X_moons[:, 1], c=y_moons_ac)
+plt.title("ac_moons")
+
+plt.subplot(348)
+plt.scatter(X_moons[:, 0], X_moons[:, 1], c=y_moons_birch)
+plt.title("birch_moons")
+
+plt.subplot(349)
+plt.scatter(X_circles[:, 0], X_circles[:, 1], c=y_circles)
+plt.title("Original_circles")
+
+plt.subplot(3,4,10)
+plt.scatter(X_circles[:, 0], X_circles[:, 1], c=y_circles_kmeans)
+circles_centers = circles_kmeans.cluster_centers_
+plt.scatter(circles_centers[:,0], circles_centers[:, 1], c='red', s=80, marker='x')
+plt.title("kmeans_circles")
+
+plt.subplot(3,4,11)
+plt.scatter(X_circles[:, 0], X_circles[:, 1], c=y_circles_ac)
+plt.title("ac_circles")
+
+plt.subplot(3,4,12)
+plt.scatter(X_circles[:, 0], X_circles[:, 1], c=y_circles_birch)
+plt.title("birch_circles")
+
+plt.show()

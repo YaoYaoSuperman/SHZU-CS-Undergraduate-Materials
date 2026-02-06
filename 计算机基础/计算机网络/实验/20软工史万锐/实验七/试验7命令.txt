@@ -1,0 +1,99 @@
+计算机A
+root
+linux
+ifconfig eth0 10.65.1.1 netmask 255.255.0.0
+route add default gw 10.65.1.2
+ifconfig
+计算机B
+root
+linux
+ifconfig eth0 10.66.1.1 netmask 255.255.0.0
+route add default gw 10.66.1.2
+ifconfig
+计算机C
+root
+linux
+ifconfig eth0 10.70.1.1 netmask 255.255.0.0
+route add default gw 10.70.1.2
+ifconfig
+计算机D
+root
+linux
+ifconfig eth0 10.71.1.1 netmask 255.255.0.0
+route add default gw 10.71.1.2
+ifconfig
+路由器A
+en
+conf t
+hostname ROA
+int f0/0
+ip address 10.65.1.2 255.255.0.0
+no shut
+int f0/1
+ip address 10.66.1.2 255.255.0.0
+no shut
+int s0/1
+ip address 10.68.1.2 255.255.0.0
+clock rate 64000
+no shut
+exit
+ip routing
+router rip
+network 10.0.0.0
+end
+路由器C
+en
+conf t
+hostname ROC
+int s0/0
+ip address 10.68.1.1 255.255.0.0
+no clock
+no shut
+int s0/1
+ip address 10.69.1.1 255.255.0.0
+clock rate 64000
+no shut
+exit
+ip routing
+router rip
+network 10.0.0.0
+end
+路由器B
+en
+conf t
+hostname ROB
+int f0/0
+ip address 10.70.1.2 255.255.0.0
+no shut
+int f0/1
+ip address 10.71.1.2 255.255.0.0
+no shut
+int s0/1
+ip address 10.69.1.2 255.255.0.0
+no clock
+no shut
+exit
+ip routing
+router rip
+network 10.0.0.0
+end
+路由器A
+sh ip route
+路由器B
+sh ip route
+路由器C
+sh ip route
+计算机A
+ping 10.65.1.2
+ping 10.66.1.1
+ping 10.66.1.2
+ping 10.68.1.1
+ping 10.68.1.2
+ping 10.69.1.1
+ping 10.69.1.2
+ping 10.70.1.1
+ping 10.70.1.2
+ping 10.71.1.1
+ping 10.71.1.2
+
+

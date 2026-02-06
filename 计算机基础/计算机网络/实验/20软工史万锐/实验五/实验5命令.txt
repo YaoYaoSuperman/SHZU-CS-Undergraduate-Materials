@@ -1,0 +1,104 @@
+机器A
+root
+linux
+ifconfig eth0 10.65.1.1 netmask 255.255.0.0
+ifconfig
+机器B
+root
+linux
+ifconfig eth0 10.66.1.1 netmask 255.255.0.0
+ifconfig
+交换机
+en
+conf t
+int vlan 1
+ip address 10.65.1.8 255.255.0.0
+exit
+ip default-gateway 10.65.1.2
+end
+机器A
+ping 10.66.1.1
+机器B
+ping 10.65.1.1
+路由器
+en
+conf t
+hostname ROA
+int f0/0
+ip address 10.65.1.2 255.255.0.0
+ip address 10.66.1.2 255.255.0.0 secondary
+no shut
+exit
+ip routing
+exit
+sh run
+机器A
+ping 10.65.1.1
+ping 10.65.1.2
+ping 10.66.1.1
+ping 10.66.1.2
+机器B
+ping 10.65.1.1
+ping 10.65.1.2
+ping 10.66.1.1
+ping 10.66.1.2
+机器A
+route add default gw 10.65.1.2
+机器B
+route add default gw 10.66.1.2
+机器A
+ping 10.66.1.1
+机器B
+ping 10.65.1.1
+机器A
+ping 10.66.1.1
+机器B
+ping 10.65.1.1
+交换机
+vlan datebase
+vlan 2
+exit
+conf t
+hostname SWA
+int f0/6
+switchport access vlan 2
+int f0/7
+switchport access vlan 2
+int f0/1
+switchport mode trunk
+switchport trunk allowed vlan 1,2
+switchport trunk encap dot1q
+end
+sh vlan
+sh run
+机器A
+ping 10.66.1.1
+路由器
+conf t
+int f0/0
+no shut
+int f0/0.1
+encapsulation dot1q 1
+ip address 10.65.1.2 255.255.0.0
+int f0/0.2
+encapsulation dot1q 2
+ip address 10.66.1.2 255.255.0.0
+exit
+exit
+ip routing
+exit
+sh run
+
+机器A
+ping 10.66.1.1
+ping 10.66.1.2
+机器B
+ping 10.65.1.1
+ping 10.65.1.2
+机器B
+ping 10.66.1.1
+ping 10.66.1.2
+机器A
+ping 10.65.1.1
+ping 10.65.1.2
+

@@ -1,0 +1,6 @@
+At end of install, when "ARM License Wizard" start, select
+"Install License", then use "Browse" in "License File To Be Installed" box,
+and point wizard to license.dat file in this directory.
+
+
+TEAM EFA

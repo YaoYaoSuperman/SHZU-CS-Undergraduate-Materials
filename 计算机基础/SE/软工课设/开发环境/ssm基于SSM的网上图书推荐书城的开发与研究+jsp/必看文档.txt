@@ -1,0 +1,18 @@
+推荐使用：谷歌浏览器
+
+后台路径地址：localhost:8080/jspm004ux/jsp/login.jsp
+管理员 abo 密码 abo
+
+前台路径地址：localhost:8080/jspm004ux/front/index.jsp 
+
+
+ 
+
+mysql地址  \src\main\resources\config.properties
+jdbc_url(mysql地址)  jdbc_username(数据库名)  jdbc_password(密码)
+jdbc_url=jdbc:mysql://127.0.0.1:3306/jspm004ux?useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false
+jdbc_username=root
+jdbc_password=root
+
+
+图片存放路径： src\main\webapp\upload  

@@ -1,0 +1,2 @@
+model_checkpoint_path: "VGG16.ckpt"
+all_model_checkpoint_paths: "VGG16.ckpt"

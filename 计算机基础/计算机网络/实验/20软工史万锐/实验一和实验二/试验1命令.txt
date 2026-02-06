@@ -1,0 +1,38 @@
+交换机
+en
+conf t
+hostname SWA
+enable secret aaa
+enable password aax
+line console 0
+password aa
+login
+line vty 0 4
+password a
+login
+exit
+exit
+sh run
+exit
+
+en
+密码该输入哪一个正确？aaa
+路由器
+en
+conf t
+hostname ROA
+enable secret aaa
+enable password aax
+line console 0
+password aa
+login
+line vty 0 4
+password a
+login
+exit
+exit
+sh run
+exit
+
+en
+密码该输入哪一个正确？aaa

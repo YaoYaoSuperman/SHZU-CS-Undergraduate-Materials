@@ -1,0 +1,13 @@
+ping
+tracert
+netstat
+nslookup
+systeminfo
+ipconfig
+arp
+
+copy del
+
+at
+shutdown
+cleanmgr

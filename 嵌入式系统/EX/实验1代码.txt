@@ -1,0 +1,43 @@
+代码1
+  AREA Example1,CODE,READONLY
+		ENTRY
+		CODE32
+START	MOV 	R0, #15
+		MOV 	R1, #8
+		ADDS 	R0, R0, R1
+		B START
+		END
+
+代码2
+x equ 45 ;x赋值为45
+y equ 64 ;y赋值为64
+stack_top equ 0x1000
+	area code1,code,readonly
+	entry
+	code32
+_strart ;代码开始标志
+	mov sp, #stack_top
+	mov r0, #x
+	str r0,[sp]  ;?str是什么指令来着
+	mov r0, #y
+	ldr r1,[sp]
+	add r0, r0, r1
+	str r0, [sp]
+stop	b stop
+	end
+
+代码3
+	area addressingMode_1,CODE,READONLY
+	entry
+	mov r5, #15
+	mov r2, #0xC
+	mov r1, r5
+	add r0, r1, r2 ;r0 = 0x18
+	add r0, r1, r2, lsr #1 ;
+	ldr r4, =0x90000
+	str r0,[r4]
+	str r0,[r4, #4]
+	str r0, [r4, #4]!
+	str r0, [r4], #4
+here 	b here
+	end

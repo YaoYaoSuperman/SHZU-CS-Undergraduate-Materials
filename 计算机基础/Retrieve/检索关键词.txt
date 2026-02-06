@@ -1,0 +1,22 @@
+﻿
+中文版检索词
+神经网络 计算机网络 故障诊断
+
+检索词英文版
+
+
+
+(Neural Network OR Deep Learning Network) AND (Computer Network OR Network System) AND (Fault Diagnosis OR Fault Detection)
+
+Neural Network、Computer Network、Fault Diagnosis
+
+[序号] 文献主要责任者.文献题名[文献类型标识].刊名,年,卷（期）:页码.
+[1] 梁俊兰.对美国信息政策的分析[J].情报资料工作,1997,15(3):43.
+
+[1] Bakhtiaridoust, Irani, Yadegar, et al.Data-driven sensor fault detection and isolation of nonlinear systems: Deep neural-network Koopman operator[J].IET CONTROL THEORY AND APPLICATIONS,2023,17(2):123-132
+
+[1]Jardine, Lin, Banjevic.A review on machinery diagnostics and prognostics implementing condition-based maintenance[J].MECHANICAL SYSTEMS AND SIGNAL PROCESSING, 2006,20(7):1483-1510
+
+(神经网络 OR深度学习网络) AND (计算机网络 OR 网络系统) AND (故障诊断 OR 故障检测)
+
+（神经网络 计算机网络）
